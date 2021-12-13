@@ -211,7 +211,20 @@ break;
 
 echo $sql;
 return $this->pdo->query($sql)->fetchColumn(0);
-} *///新增或更新資料
+} *
+
+
+///新增或更新資料
+
+
+
+
+
+
+
+
+
+
 
 //刪除資料
 public function del($id){
@@ -237,15 +250,18 @@ public function del($id){
         return $this->pdo->exec($sql);
     }
 //萬用的查詢
-
+public function q($sql){
+    return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
 
 }
 
 $Journal=new DB('journal');
-// $Journal=new Journal;
-
-echo "<pre>";
+/* echo "<pre>";
 print_r($Journal->del(2));
+echo "</pre>";  */
+echo "<pre>";
+print_r($Journal->q("select * from `journal` where `item`='早餐' && `money` < 200"));
 
 // print_r($Journal->all());
 // print_r($Journal->find(填什麼));
@@ -254,15 +270,15 @@ print_r($Journal->del(2));
 // print_r($Journal->math('count','*',['item'=>'早餐']));
 
 echo "</pre>"; 
-echo "<pre>";
+/* echo "<pre>";
 print_r($Journal->math('sum','money',['item'=>'早餐']));
 echo "</pre>"; 
 echo "<pre>";
 print_r($Journal->math('min','money',['item'=>'早餐']));
-echo "</pre>"; 
+echo "</pre>";  */
 /* echo "<pre>";
 print_r($Journal->all(['item'=>'早餐']));
-echo "</pre>"; 
+echo "</pre>";  */
 
 
 
