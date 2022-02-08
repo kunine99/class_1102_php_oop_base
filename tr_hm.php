@@ -1,5 +1,6 @@
 <?php
 //老師hackmd筆記
+//老師hackmd裡的opp有註解
 class DB
 {
 
