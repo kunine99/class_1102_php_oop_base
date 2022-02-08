@@ -1,12 +1,18 @@
 <?php
-
+//老師註解+自己的註解
 
 class DB{
+// 未宣告權限則預設為public
+// Public -> 外部可以自由存取
+// Protect -> 內部和有繼承關係的可以存取
+// Private -> 僅限類別內部取用
     protected $table;
     protected $dsn="mysql:host=localhost;charset=utf8;dbname=students";
     protected $pdo;
 
     public function __construct($table){
+        // 預設值只能在construct這裡面做
+
         $this->pdo=new PDO($this->dsn,'root','');
         $this->table=$table;
     }
