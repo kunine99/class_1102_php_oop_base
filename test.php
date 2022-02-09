@@ -1,7 +1,8 @@
 <?php
+//測試crud用的php檔(base檔)
+
 //老師hackmd筆記
 //老師hackmd裡的opp有註解
-//測試crud_連上資料庫
 //有同學的註解
 class DB
 {

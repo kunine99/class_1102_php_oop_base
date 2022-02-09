@@ -166,7 +166,7 @@ class DB
             $sql .= implode(" AND ", $tmp);
         } else {
 
-            $sql .= " `id`='$id'";
+            $sql .= "`id`='$id'";
         }
 
         //echo $sql;
@@ -197,7 +197,7 @@ class DB
             $sql .= implode(" && ", $tmp);
         } else {
 
-            $sql .= " `id`='$id'";
+            $sql .= "`id`='$id'";
         }
 
         //echo $sql;
@@ -228,8 +228,7 @@ class DB
             //insert
 
             //建立新增資料(insert)的sql語法
-            $sql = "insert into $this->table (`" . implode("`,`", array_keys($array)) . "`) 
-                                 values('" . implode("','", $array) . "')";
+            $sql = "insert into $this->table (`" . implode("`,`", array_keys($array)) . "`)values('" . implode("','", $array) . "')";
 
             /* 覺得一行式寫法太複雜可以利用變數把語法拆成多行再組合
                      * $cols=implode("`,`",$array_keys($arg));
