@@ -177,7 +177,7 @@ class DB
          *      1. 陣列 - 撈出符合陣列key = value 條件的單筆資料
          *      2. 字串 - 必須是資料表的id，數字型態，且資料表有id這個欄位
          */
-        $sql = "SELECT * FROM $this->table where ";
+        $sql = "SELECT * FROM $this->table WHERE ";
 
         if (is_array($id)) {
 
@@ -208,7 +208,7 @@ class DB
          *      2. 字串 - 必須是資料表的id，數字型態，且資料表有id這個欄位
          */
 
-        $sql = "DELETE FROM $this->table where ";
+        $sql = "DELETE FROM $this->table WHERE ";
 
         if (is_array($id)) {
 
