@@ -71,6 +71,7 @@ class DB
         //當參數數量不為1或2時，那麼此方法就只會執行選取全部資料這一句SQL語法
         ////建立共有的基本SQL語法
         $sql = "select * from $this->table ";
+        
 
         //依參數數量來決定進行的動作因此使用switch...case
         switch (count($arg)) {
