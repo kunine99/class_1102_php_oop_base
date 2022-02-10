@@ -70,6 +70,7 @@ class DB
         //在class中要引用內部的成員使用$this->成員名稱或方法
         //當參數數量不為1或2時，那麼此方法就只會執行選取全部資料這一句SQL語法
         ////建立共有的基本SQL語法
+
         $sql = "SELECT * FROM $this->table ";
 
 
@@ -250,8 +251,7 @@ class DB
             //insert
 
             //建立新增資料(insert)的sql語法
-            $sql = "INSERT into $this->table (`" . implode("`,`", array_keys($array)) . "`) 
-                         values('" . implode("','", $array) . "')";
+            $sql = "INSERT into $this->table (`" . implode("`,`", array_keys($array)) . "`)values('" . implode("','", $array) . "')";
 
             /* 覺得一行式寫法太複雜可以利用變數把語法拆成多行再組合
              * $cols=implode("`,`",array_keys($array));
