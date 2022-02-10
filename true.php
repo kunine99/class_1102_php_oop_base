@@ -208,7 +208,7 @@ class DB
          *      2. 字串 - 必須是資料表的id，數字型態，且資料表有id這個欄位
          */
 
-        $sql = "DELETE from $this->table where ";
+        $sql = "DELETE FROM $this->table where ";
 
         if (is_array($id)) {
 
@@ -251,7 +251,7 @@ class DB
             //insert
 
             //建立新增資料(insert)的sql語法
-            $sql = "INSERT into $this->table (`" . implode("`,`", array_keys($array)) . "`)values('" . implode("','", $array) . "')";
+            $sql = "INSERT INTO $this->table (`" . implode("`,`", array_keys($array)) . "`)values('" . implode("','", $array) . "')";
 
             /* 覺得一行式寫法太複雜可以利用變數把語法拆成多行再組合
              * $cols=implode("`,`",array_keys($array));
