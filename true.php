@@ -82,23 +82,30 @@ class DB
 
                     //使用迴圈來建立條件語句的字串型式，並暫存在陣列中
                     foreach ($arg[0] as $key => $value) {
+
                         $tmp[] = "`$key`='$value'";
                     }
+
                     //使用implode()來轉換陣列為字串並和原本的$sql字串再結合
                     $sql .= " WHERE " . implode(" AND ", $tmp);
                 } else {
+
                     //如果參數不是陣列，那應該是SQL語句字串，因此直接接在原本的$sql字串之後即可
                     $sql .= $arg[0];
                 }
                 break;
             case 2:
+
                 //第一個參數必須為陣列，使用迴圈來建立條件語句的陣列
                 foreach ($arg[0] as $key => $value) {
+
                     $tmp[] = "`$key`='$value'";
                 }
+
                 //將條件語句的陣列使用implode()來轉成字串，最後再接上第二個參數(必須為字串)
                 $sql .= " WHERE " . implode(" AND ", $tmp) . " " . $arg[1];
                 break;
+
                 //執行連線資料庫查詢並回傳sql語句執行的結果
         }
 
@@ -106,8 +113,6 @@ class DB
         //echo $sql;  //保留echo $sql 除錯時可用
 
         //fetchAll()加上常數參數FETCH_ASSOC是為了讓取回的資料陣列中只有欄位名稱
-        //而沒有數字的索引值
-        //以函式取得回傳值並指定給變數
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -115,32 +120,48 @@ class DB
     //math()-使用指定的聚合函數進行資料表的計算或取值
     public function math($math, $col, ...$arg)
     {
-        /**
-         * $table - 資料表名稱 字串型式
-         * $math - 聚合函式名稱，必須有，支援以下聚合函式：
-         *         count、max、min、avg、sum
-         * $col - 要進行計算的欄位 字串型式
-         * ...$arg - 參數型態
-         *           1. 沒有參數，針對資料表全部資料進行計算
-         *           2. 陣列 - 計算符合陣列key = value 條件的全部資料
-         */
-
-        //計算某個欄位或是計算符合條件的筆數
-        //max,min,sum,count,avg
         $sql = "SELECT $math($col) FROM $this->table ";
 
-        if (!empty($arg[0])) {
+        //依參數數量來決定進行的動作因此使用switch...case
+        switch (count($arg)) {
+            case 1:
 
-            foreach ($arg[0] as $key => $value) {
+                //判斷參數是否為陣列
+                if (is_array($arg[0])) {
 
-                $tmp[] = "`$key`='$value'";
-            }
+                    //使用迴圈來建立條件語句的字串型式，並暫存在陣列中
+                    foreach ($arg[0] as $key => $value) {
 
-            $sql .= " WHERE " . implode(" AND ", $tmp);
+                        $tmp[] = "`$key`='$value'";
+                    }
+
+                    //使用implode()來轉換陣列為字串並和原本的$sql字串再結合
+                    $sql .= " WHERE " . implode(" AND ", $tmp);
+                } else {
+
+                    //如果參數不是陣列，那應該是SQL語句字串，因此直接接在原本的$sql字串之後即可
+                    $sql .= $arg[0];
+                }
+                break;
+            case 2:
+
+                //第一個參數必須為陣列，使用迴圈來建立條件語句的陣列
+                foreach ($arg[0] as $key => $value) {
+
+                    $tmp[] = "`$key`='$value'";
+                }
+
+                //將條件語句的陣列使用implode()來轉成字串，最後再接上第二個參數(必須為字串)
+                $sql .= " WHERE " . implode(" AND ", $tmp) . " " . $arg[1];
+                break;
+
+                //執行連線資料庫查詢並回傳sql語句執行的結果
         }
 
-        //使用fetchColumn()來取回第一欄位的資料，因為這個SQL語法
-        //只有select 一個欄位的資料，因此這個函式會直接回傳計算的結果出來
+
+        //echo $sql;  //保留echo $sql 除錯時可用
+
+        //fetchColumn()只會取回的指定欄位資料預設是查詢結果的第1欄位的值
         return $this->pdo->query($sql)->fetchColumn();
     }
 
@@ -155,7 +176,7 @@ class DB
          *      1. 陣列 - 撈出符合陣列key = value 條件的單筆資料
          *      2. 字串 - 必須是資料表的id，數字型態，且資料表有id這個欄位
          */
-        $sql = "select * from $this->table where ";
+        $sql = "SELECT * FROM $this->table where ";
 
         if (is_array($id)) {
 
@@ -167,7 +188,7 @@ class DB
             $sql .= implode(" AND ", $tmp);
         } else {
 
-            $sql .= "`id`='$id'";
+            $sql .= " `id`='$id'";
         }
 
         //echo $sql;
@@ -186,7 +207,7 @@ class DB
          *      2. 字串 - 必須是資料表的id，數字型態，且資料表有id這個欄位
          */
 
-        $sql = "delete from $this->table where ";
+        $sql = "DELETE from $this->table where ";
 
         if (is_array($id)) {
 
@@ -224,18 +245,19 @@ class DB
             }
 
             //建立更新資料(update)的sql語法
-            $sql = "update $this->table set " . implode(',', $tmp) . " where `id`='{$array['id']}'";
+            $sql = "UPDATE $this->table set " . implode(',', $tmp) . " where `id`='{$array['id']}'";
         } else {
             //insert
 
             //建立新增資料(insert)的sql語法
-            $sql = "insert into $this->table (`" . implode("`,`", array_keys($array)) . "`)values('" . implode("','", $array) . "')";
+            $sql = "INSERT into $this->table (`" . implode("`,`", array_keys($array)) . "`) 
+                         values('" . implode("','", $array) . "')";
 
             /* 覺得一行式寫法太複雜可以利用變數把語法拆成多行再組合
-                     * $cols=implode("`,`",$array_keys($arg));
-                     * $values=implode("','",$arg);
-                     * $sql="INSERT INTO $table (`$cols`) VALUES('$values')";        
-                     */
+             * $cols=implode("`,`",array_keys($array));
+             * $values=implode("','",$array);
+             * $sql="INSERT INTO $table (`$cols`) VALUES('$values')";        
+             */
         }
         //echo $sql;
         return $this->pdo->exec($sql);
