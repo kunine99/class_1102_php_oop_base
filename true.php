@@ -283,6 +283,13 @@ function to($url)
     header("location:" . $url);
 }
 
+function dd($array){
+    echo "<pre>";
+    print_r($array);
+    echo "<pre>";
+
+}
+
 //有些題組會使用到時間，直接修改apache設定檔或php.ini都可以
 //但如果是一般坊間的server，可能沒有提供使用者去更改全域設定的功能
 //此時可以簡單的加上一個動態時區設定的語法，讓我們的程式在執行期間可以使用我們自行設定的時區：
