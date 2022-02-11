@@ -246,7 +246,7 @@ class DB
             }
 
             //建立更新資料(update)的sql語法
-            $sql = "UPDATE $this->table set " . implode(',', $tmp) . " where `id`='{$array['id']}'";
+            $sql = "UPDATE $this->table SET " . implode(',', $tmp) . " where `id`='{$array['id']}'";
         } else {
             //insert
 
